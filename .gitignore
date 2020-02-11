@@ -1,0 +1,15 @@
+.emacs.d/auto-save-list/
+.emacs.d/backups/
+.emacs.d/conf/
+.emacs.d/elisp/
+.emacs.d/elpa/
+.emacs.d/etc/
+.emacs.d/howm/
+.emacs.d/info/
+.emacs.d/public_repos/
+.emacs.d/undohist/
+.emacs.d/*.dat
+.emacs.d/*.data
+.emacs.d/*.eld
+.emacs.d/recentf
+.emacs.d/tramp/
