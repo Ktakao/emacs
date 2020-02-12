@@ -1,4 +1,4 @@
-SYMLINK_PREFIX := ~/.emacs.d.tmp
+SYMLINK_PREFIX := ~/.emacs.d
 DIR_TARGET := backups conf elisp etc howm info public_repos undohist
 DIR_PATH := $(addprefix .emacs.d/,$(DIR_TARGET))
 
