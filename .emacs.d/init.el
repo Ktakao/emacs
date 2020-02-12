@@ -1,16 +1,3 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tango-dark)))
- '(helm-gtags-auto-update t)
- '(helm-gtags-suggested-key-mapping t)
- '(package-selected-packages
-   (quote
-    (git-gutter-fringe google-translate elscreen direnv rspec-mode projectile flycheck inf-ruby less-css-mode auto-complete helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails phpunit php-mode multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur git-gutter flycheck-pos-tip ac-emoji)))
- '(size-indication-mode t))
-
 ;;; Startup settings
 ;; Load cl-lib package
 (require 'cl-lib)
@@ -165,6 +152,10 @@
     (turn-on-eldoc-mode)))
 ;; Set hook for emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+
+;;; Use custom theme
+(package-install 'atom-one-dark-theme)
+(load-theme 'atom-one-dark t)
 
 ;;; Helm
 (package-install 'helm)
@@ -392,6 +383,26 @@
 
 ;;; Cooperation between gtags and Helm
 (package-install 'helm-gtags)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(fci-rule-color "#3E4451")
+ '(helm-gtags-auto-update t)
+ '(helm-gtags-suggested-key-mapping t)
+ '(package-selected-packages
+   (quote
+    (projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
+ '(size-indication-mode t)
+ '(tetris-x-colors
+   [[229 192 123]
+    [97 175 239]
+    [209 154 102]
+    [224 108 117]
+    [152 195 121]
+    [198 120 221]
+    [86 182 194]]))
 
 ;;; projectile
 (package-install 'projectile)
@@ -428,6 +439,32 @@
 (package-install 'multi-term)
 (when (require 'multi-term nil t)
   (setq multi-term-program "/usr/bin/bash"))
+(defun term-send-forward-char ()
+  (interactive)
+  (term-send-raw-string "\C-f"))
+(defun term-send-backward-char ()
+  (interactive)
+  (term-send-raw-string "\C-b"))
+(defun term-send-previous-line ()
+  (interactive)
+  (term-send-raw-string "\C-p"))
+(defun term-send-next-line ()
+  (interactive)
+  (term-send-raw-string "\C-n"))
+(add-hook 'term-mode-hook
+          '(lambda ()
+             (let* ((key-and-func
+                     `(("\C-p"           term-send-previous-line)
+                       ("\C-n"           term-send-next-line)
+                       ("\C-b"           term-send-backward-char)
+                       ("\C-f"           term-send-forward-char)
+                       (,(kbd "C-h")     term-send-backspace)
+                       (,(kbd "C-y")     term-paste)
+                       (,(kbd "ESC ESC") term-send-raw)
+                       (,(kbd "C-S-p")   multi-term-prev)
+                       (,(kbd "C-S-n")   multi-term-next))))
+               (loop for (keybind function) in key-and-func do
+                     (define-key term-raw-map keybind function)))))
 
 ;;; tramp
 ;; Do not create backup files with TRAMP
