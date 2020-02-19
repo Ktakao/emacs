@@ -451,6 +451,9 @@
 (defun term-send-next-line ()
   (interactive)
   (term-send-raw-string "\C-n"))
+(defun term-send-reverse-search-history ()
+  (interactive)
+  (term-send-raw-string "\C-r"))
 (add-hook 'term-mode-hook
           '(lambda ()
              (let* ((key-and-func
@@ -458,6 +461,7 @@
                        ("\C-n"           term-send-next-line)
                        ("\C-b"           term-send-backward-char)
                        ("\C-f"           term-send-forward-char)
+                       ("\C-r"           term-send-reverse-search-history)
                        (,(kbd "C-h")     term-send-backspace)
                        (,(kbd "C-y")     term-paste)
                        (,(kbd "ESC ESC") term-send-raw)
