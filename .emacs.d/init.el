@@ -22,6 +22,20 @@
             (normal-top-level-add-subdirs-to-load-path))))))
 ;; Add sub-directory to load-path
 (add-to-load-path "elisp" "conf" "public_repos")
+;; Define function to add spec
+(defun my-lisp-load (filename)
+  "Load lisp from FILENAME"
+  (let ((fullname (expand-file-name (concat "pref/" filename) user-emacs-directory))
+        lisp)
+    (when (file-readable-p fullname)
+      (with-temp-buffer
+        (progn
+          (insert-file-contents fullname)
+          (setq lisp
+                (condition-case nil
+                    (read (current-buffer))
+                  (error ()))))))
+    lisp))
 ;;; Add other ELPA repository
 (require 'package)
 (add-to-list
@@ -156,7 +170,6 @@
 ;;; Use custom theme
 (package-install 'atom-one-dark-theme)
 (load-theme 'atom-one-dark t)
-
 ;;; Helm
 (package-install 'helm)
 ;; Helm
@@ -393,7 +406,7 @@
  '(helm-gtags-suggested-key-mapping t)
  '(package-selected-packages
    (quote
-    (google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
+    (codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
  '(size-indication-mode t)
  '(tetris-x-colors
    [[229 192 123]
@@ -561,7 +574,7 @@
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 (setq default-input-method "japanese-mozc")
-
+;;; google translate
 (package-install 'google-translate)
 (defun google-translate-json-suggestion (json)
   "Retrieve from JSON (which returns by the
@@ -599,3 +612,6 @@ translation it is possible to get suggestion."
         (google-translate-translate
          "ja" "en"
          string)))))
+;;; emacs-codic
+(package-install 'codic)
+(setq codic-api-token (my-lisp-load "codic-token"))

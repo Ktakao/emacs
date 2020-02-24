@@ -1,5 +1,5 @@
 SYMLINK_PREFIX := ~/.emacs.d
-DIR_TARGET := backups conf elisp etc howm info public_repos undohist
+DIR_TARGET := backups conf elisp etc howm info public_repos undohist pref
 DIR_PATH := $(addprefix .emacs.d/,$(DIR_TARGET))
 
 .PHONY: all install uninstall

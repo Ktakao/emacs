@@ -13,3 +13,4 @@
 .emacs.d/*.eld
 .emacs.d/recentf
 .emacs.d/tramp
+.emacs.d/pref
