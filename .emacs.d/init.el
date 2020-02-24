@@ -170,6 +170,14 @@
 ;;; Use custom theme
 (package-install 'atom-one-dark-theme)
 (load-theme 'atom-one-dark t)
+
+;;; popwin
+(package-install 'popwin)
+(require 'popwin)
+(popwin-mode 1)
+(setq pop-up-windows nil)
+(setq anything-samewindow nil)
+
 ;;; Helm
 (package-install 'helm)
 ;; Helm
@@ -406,7 +414,7 @@
  '(helm-gtags-suggested-key-mapping t)
  '(package-selected-packages
    (quote
-    (codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
+    (popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
  '(size-indication-mode t)
  '(tetris-x-colors
    [[229 192 123]
