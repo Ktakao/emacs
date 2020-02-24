@@ -574,5 +574,28 @@ translation it is possible to get suggestion."
       nil)))
 (require 'google-translate)
 (require 'google-translate-default-ui)
-(global-set-key "\C-ct" 'google-translate-at-point)
-(global-set-key "\C-cT" 'google-translate-query-translate)
+(global-set-key "\C-ct" 'google-translate-auto)
+(defun google-translate-auto ()
+  "Automatically recognize and translate Japanese and English."
+  (interactive)
+  (if (use-region-p)
+      (let ((string (buffer-substring-no-properties (region-beginning) (region-end))))
+        (deactivate-mark)
+        (if (string-match (format "\\`[%s]+\\'" "[:ascii:]")
+                          string)
+            (google-translate-translate
+             "en" "ja"
+             string)
+          (google-translate-translate
+           "ja" "en"
+           string)))
+    (let ((string (read-string "Google Translate: ")))
+      (if (string-match
+           (format "\\`[%s]+\\'" "[:ascii:]")
+           string)
+          (google-translate-translate
+           "en" "ja"
+           string)
+        (google-translate-translate
+         "ja" "en"
+         string)))))
