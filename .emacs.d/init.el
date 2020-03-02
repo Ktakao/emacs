@@ -584,6 +584,8 @@
 (setq default-input-method "japanese-mozc")
 ;;; google translate
 (package-install 'google-translate)
+(require 'google-translate)
+(require 'google-translate-default-ui)
 (defun google-translate-json-suggestion (json)
   "Retrieve from JSON (which returns by the
 `google-translate-request' function) suggestion. This function
@@ -593,8 +595,6 @@ translation it is possible to get suggestion."
     (if (and info (> (length info) 0))
         (aref info 1)
       nil)))
-(require 'google-translate)
-(require 'google-translate-default-ui)
 (global-set-key "\C-ct" 'google-translate-auto)
 (defun google-translate-auto ()
   "Automatically recognize and translate Japanese and English."
@@ -620,6 +620,7 @@ translation it is possible to get suggestion."
         (google-translate-translate
          "ja" "en"
          string)))))
+
 ;;; emacs-codic
 (package-install 'codic)
 (setq codic-api-token (my-lisp-load "codic-token"))
