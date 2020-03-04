@@ -1,3 +1,6 @@
+.emacs.d/*.dat
+.emacs.d/*.data
+.emacs.d/*.eld
 .emacs.d/auto-save-list
 .emacs.d/backups
 .emacs.d/conf
@@ -6,11 +9,10 @@
 .emacs.d/etc
 .emacs.d/howm
 .emacs.d/info
+.emacs.d/pref
 .emacs.d/public_repos
-.emacs.d/undohist
-.emacs.d/*.dat
-.emacs.d/*.data
-.emacs.d/*.eld
 .emacs.d/recentf
 .emacs.d/tramp
-.emacs.d/pref
+.emacs.d/transient
+.emacs.d/undohist
+.emacs.d/url

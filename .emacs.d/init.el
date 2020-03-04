@@ -252,6 +252,11 @@
       (define-key elscreen-map (kbd "C-z") 'iconify-or-deiconify-frame)
     (define-key elscreen-map (kbd "C-z") 'suspend-emacs)))
 
+;;; org-mode
+(add-hook 'org-mode-hook 'howm-mode)
+(add-to-list 'auto-mode-alist '("\\.howm$" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+
 ;;; howm
 (package-install 'howm)
 ;; howm note location
