@@ -106,13 +106,13 @@
 
 ;;; Settings indent
 ;; Tab characters display. default 8
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 ;; Don't use tab characters for indent
 (setq-default indent-tabs-mode nil)
 ;; Indent
 (add-hook 'c-mode-common-hook
           '(lambda ()
-             (c-set-style "cc-mode")))
+             (c-set-style "gnu")))
 
 ;;; Highlight current line
 (defface my-hl-line-face
@@ -168,8 +168,19 @@
 (add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
 
 ;;; Use custom theme
-(package-install 'atom-one-dark-theme)
-(load-theme 'atom-one-dark t)
+(package-install 'madhat2r-theme)
+(load-theme 'madhat2r t)
+
+;;; Set custom faces
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "PfEd" :slant normal :weight normal :height 113 :width normal))))
+ '(font-lock-comment-delimiter-face ((t (:inherit nil :foreground "DarkGoldenrod3"))))
+ '(font-lock-comment-face ((t (:foreground "DarkGoldenrod3"))))
+ '(font-lock-doc-face ((t (:foreground "DarkGoldenrod3")))))
 
 ;;; popwin
 (package-install 'popwin)
@@ -354,7 +365,7 @@
 ;; Setting php-mode indent
 (defun php-indent-hook ()
   (setq indent-tabs-mode nil)
-  (setq c-basic-offset 4)
+  (setq c-basic-offset 2)
   (c-set-offset 'arglist-intro '+)
   (c-set-offset 'arglist-close 0))
 
@@ -414,12 +425,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(cua-mode t nil (cua-base))
+ '(custom-safe-themes
+   (quote
+    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+ '(display-battery-mode t)
+ '(display-time-mode t)
  '(fci-rule-color "#3E4451")
  '(helm-gtags-auto-update t)
  '(helm-gtags-suggested-key-mapping t)
  '(package-selected-packages
    (quote
-    (popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen color-theme-monokai auto-complete atom-one-dark-theme)))
+    (powerline direx spaceline smart-mode-line-powerline-theme rainbow-delimiters madhat2r-theme markdown-mode dired-toggle-sudo popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen auto-complete)))
+ '(show-paren-mode t)
  '(size-indication-mode t)
  '(tetris-x-colors
    [[229 192 123]
@@ -428,7 +447,8 @@
     [224 108 117]
     [152 195 121]
     [198 120 221]
-    [86 182 194]]))
+    [86 182 194]])
+ '(tool-bar-mode nil))
 
 ;;; projectile
 (package-install 'projectile)
@@ -460,6 +480,7 @@
 
 ;;; Magit (git frontend)
 (package-install 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; multi-term
 (package-install 'multi-term)
@@ -575,12 +596,7 @@
 
 ;;; Remove trailing blanks when saving
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 
 ;;; Jpananse ime settings
 (require 'mozc)
@@ -629,3 +645,37 @@ translation it is possible to get suggestion."
 ;;; emacs-codic
 (package-install 'codic)
 (setq codic-api-token (my-lisp-load "codic-token"))
+
+;;; dired-toggle-sudo
+(require 'dired-toggle-sudo)
+(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
+
+;;; shellscript mode
+(setq sh-basic-offset 2)
+(setq sh-indentation 2)
+(setq sh-shell-file "/bin/sh")
+
+;;; rainbow-delimiters
+(package-install 'rainbow-delimiters)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(require 'cl-lib)
+(require 'color)
+(cl-loop
+ for index from 1 to rainbow-delimiters-max-face-count
+ do
+ (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+   (cl-callf color-saturate-name (face-foreground face) 30)))
+
+;;; powerline
+(package-install 'powerline)
+(require 'powerline)
+(powerline-default-theme)
+
+;;; direx
+(package-install 'direx)
+(require 'direx)
+;;(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
+(push '(direx:direx-mode :position left :width 25 :dedicated t)
+      popwin:special-display-config)
+(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
