@@ -647,6 +647,7 @@ translation it is possible to get suggestion."
 (setq codic-api-token (my-lisp-load "codic-token"))
 
 ;;; dired-toggle-sudo
+(package-install 'dired-toggle-sudo)
 (require 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
 
