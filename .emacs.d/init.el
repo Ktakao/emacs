@@ -437,7 +437,7 @@
  '(helm-gtags-suggested-key-mapping t)
  '(package-selected-packages
    (quote
-    (powerline direx spaceline smart-mode-line-powerline-theme rainbow-delimiters madhat2r-theme markdown-mode dired-toggle-sudo popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen auto-complete)))
+    (hide-mode-line ## iflipb powerline direx spaceline smart-mode-line-powerline-theme rainbow-delimiters madhat2r-theme markdown-mode dired-toggle-sudo popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen auto-complete)))
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(tetris-x-colors
@@ -680,3 +680,16 @@ translation it is possible to get suggestion."
 (push '(direx:direx-mode :position left :width 25 :dedicated t)
       popwin:special-display-config)
 (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+
+;;; iflipb
+(package-install 'iflipb)
+(require 'iflipb)
+(setq iflipb-ignore-buffers (list "^[*]" "^magit" "]$"))
+(setq iflipb-wrap-around t)
+(global-set-key (kbd "M-h") 'iflipb-next-buffer)
+(global-set-key (kbd "M-H") 'iflipb-previous-buffer)
+
+;; dired-find-alternate-file
+(put 'dired-find-alternate-file 'disabled nil)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+(define-key dired-mode-map (kbd "a") 'dired-find-file)
