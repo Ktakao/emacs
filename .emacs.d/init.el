@@ -63,7 +63,8 @@
 
 ;;; Replace C-h with backspace
 ;; Replace incoming key sequence
-(keyboard-translate ?\C-h ?\C-?)
+;;(keyboard-translate ?\C-h ?\C-?)
+(define-key key-translation-map [?\C-h] [?\C-?])
 
 ;;; Assign newline-and-indent to C-m
 (global-set-key (kbd "C-m") 'newline-and-indent)
@@ -95,10 +96,10 @@
               (- (region-end) (region-beginning)))
     ""))
 ;; Removed default-* from emacs26*, so set value
-(if (string-match "26" emacs-version)
-    (setq default-mode-line-format (default-value 'mode-line-format)))
-(add-to-list 'default-mode-line-format
-             '(:eval (count-lines-and-chars)))
+;; (if (string-match "26" emacs-version)
+;;     (setq default-mode-line-format (default-value 'mode-line-format)))
+;; (add-to-list 'default-mode-line-format
+;;              '(:eval (count-lines-and-chars)))
 ;; Display full-file-path in title bar
 (setq frame-title-format "%f")
 ;; Display line number
@@ -140,12 +141,15 @@
 (set-face-underline-p 'show-paren-match "yellow")
 
 ;;; Settings backups and autosave
-(setq make-backup-files t)
+;; (setq make-backup-files t)
 ;; Collect backup and autosave files to ~/.emacs.d/backups
-(add-to-list 'backup-directory-alist
-             (cons "." "~/.emacs.d/backups/"))
-(setq auto-save-file-name-transforms
-      `((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))
+;; (add-to-list 'backup-directory-alist
+;;              (cons "." "~/.emacs.d/backups/"))
+;; (setq auto-save-file-name-transforms
+;;       `((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))
+;;; Disable backups
+(setq make-backup-files nil)
+
 ;; Second interval until auto save file is created
 (setq auto-save-timeout 15)
 ;; Type interval until auto save file creation
@@ -428,16 +432,14 @@
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
  '(custom-safe-themes
-   (quote
-    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default)))
+   '("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" default))
  '(display-battery-mode t)
  '(display-time-mode t)
  '(fci-rule-color "#3E4451")
  '(helm-gtags-auto-update t)
  '(helm-gtags-suggested-key-mapping t)
  '(package-selected-packages
-   (quote
-    (hide-mode-line ## iflipb powerline direx spaceline smart-mode-line-powerline-theme rainbow-delimiters madhat2r-theme markdown-mode dired-toggle-sudo popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen auto-complete)))
+   '(package-utils sudo-edit dired-toggle hide-mode-line ## iflipb powerline direx spaceline smart-mode-line-powerline-theme rainbow-delimiters madhat2r-theme markdown-mode dired-toggle-sudo popwin codic google-translate projectile flycheck inf-ruby less-css-mode helm yaml-mode web-mode undohist undo-tree sass-mode ruby-electric projectile-rails multi-term moccur-edit magit js2-mode html5-schema howm helm-projectile helm-gtags helm-c-moccur flycheck-pos-tip elscreen auto-complete))
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(tetris-x-colors
@@ -616,6 +618,9 @@ translation it is possible to get suggestion."
     (if (and info (> (length info) 0))
         (aref info 1)
       nil)))
+(defun google-translate--search-tkk ()
+  "Search TKK."
+  (list 430675 2721866130))
 (global-set-key "\C-ct" 'google-translate-auto)
 (defun google-translate-auto ()
   "Automatically recognize and translate Japanese and English."
@@ -650,6 +655,11 @@ translation it is possible to get suggestion."
 (package-install 'dired-toggle-sudo)
 (require 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
+(eval-after-load 'tramp
+ '(progn
+    ;; Allow to use: /sudo:user@host:/path/to/file
+    (add-to-list 'tramp-default-proxies-alist
+                 '(".*" "\\`.+\\'" "/ssh:%h:"))))
 
 ;;; shellscript mode
 (setq sh-basic-offset 2)
@@ -684,7 +694,7 @@ translation it is possible to get suggestion."
 ;;; iflipb
 (package-install 'iflipb)
 (require 'iflipb)
-(setq iflipb-ignore-buffers (list "^[*]" "^magit" "]$"))
+(setq iflipb-ignore-buffers (list "^[*]M" "^[*]C" "^magit" "]$"))
 (setq iflipb-wrap-around t)
 (global-set-key (kbd "M-h") 'iflipb-next-buffer)
 (global-set-key (kbd "M-H") 'iflipb-previous-buffer)
@@ -693,3 +703,9 @@ translation it is possible to get suggestion."
 (put 'dired-find-alternate-file 'disabled nil)
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 (define-key dired-mode-map (kbd "a") 'dired-find-file)
+
+
+;;hide-title-bar
+(setq default-frame-alist '((undecorated . t)))
+(add-to-list 'default-frame-alist '(drag-internal-border . 1))
+(add-to-list 'default-frame-alist '(internal-border-width . 5))
